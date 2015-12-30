@@ -43,13 +43,11 @@ books.attachSchema(new SimpleSchema({
   },
   createdAt: {
     type: Date,
-    optional: true,
-    denyUpdate: true
+    optional: true
   },
   updatedAt: {
     type: Date,
-    optional: true,
-    denyInsert: true
+    optional: true
   }
 }));
 
