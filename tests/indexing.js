@@ -1,7 +1,7 @@
 var books = new Mongo.Collection('books');
 
 //one before and one after to verify that order doesn't matter
-books.attachIndex('isbnIdx', {
+books.attachIndex('c2_isbn', {
     unique: true,
     action: 'rebuild',
     background: false
@@ -14,7 +14,7 @@ books.attachSchema(new SimpleSchema({
     label: 'Title',
     max: 200,
     index: {
-      name: 'titleIdx',
+      name: 'c2_title',
       type:-1
     }
   },
@@ -42,7 +42,7 @@ books.attachSchema(new SimpleSchema({
     type: String,
     label: 'ISBN',
     optional: true,
-    index: {name: 'isbnIdx'}
+    index: {name: 'c2_isbn'}
   },
   field1: {
     type: String,
@@ -63,7 +63,7 @@ books.attachSchema(new SimpleSchema({
 }));
 
 
-books.attachIndex('titleIdx', {
+books.attachIndex('c2_title', {
   action: 'rebuild',
   background: false
 });
@@ -150,7 +150,7 @@ Tinytest.addAsync('Collection2 - Unique - Insert Duplicate', function (test, nex
     copies: 1,
     isbn: isbn
   }, function (error, result) {
-    console.log('error is', error, 'result is', result);
+    //console.log('error is', error, 'result is', result);
     test.isTrue(!!error, 'We expected the insert to trigger an error since isbn being inserted is already used');
     //test.equal(error.code, 11000, 'We expected the insert to trigger an E11000 duplicate key error');
     test.equal(error.invalidKeys.length, 1, 'We should get one invalidKey back attached to the Error object');
@@ -276,12 +276,15 @@ Tinytest.add('Collection2 - Unique - Object Array', function (test) {
   var testSchema = new SimpleSchema({
     'a.$.b': {
       type: String,
-      unique: true
+      index: {
+        name: 'c2_a.b'
+      }
     }
   });
 
   try {
     testCollection.attachSchema(testSchema);
+    testCollection.attachIndex('c2_a.b', {unique: true});
   } catch (e) {
     // If we error, that means collection2 tried to set up the index incorrectly,
     // using the wrong index key
