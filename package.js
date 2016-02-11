@@ -15,9 +15,12 @@ Package.onUse(function(api) {
   ]);
   
   api.addFiles([
-    'lib/indexing.js',
-    'lib/schemaIndex.js'
+    'lib/indexing.js'
   ]);
+
+  api.addFiles([
+    'lib/schemaIndex.js'
+  ], 'server');
 });
 
 Package.onTest(function(api) {
