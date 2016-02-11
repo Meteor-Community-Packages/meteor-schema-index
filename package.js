@@ -11,7 +11,7 @@ Package.onUse(function(api) {
     'underscore@1.0.0',
     'minimongo@1.0.0',
     'check@1.0.0',
-    'ecmascript@0.3.0'
+    'ecmascript@0.1.6'
   ]);
   
   api.addFiles([
