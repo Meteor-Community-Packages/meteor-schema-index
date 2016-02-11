@@ -11,10 +11,12 @@ Package.onUse(function(api) {
     'underscore@1.0.0',
     'minimongo@1.0.0',
     'check@1.0.0',
+    'ecmascript'
   ]);
   
   api.addFiles([
-    'lib/indexing.js'
+    'lib/indexing.js',
+    'lib/schemaIndex.js'
   ]);
 });
 

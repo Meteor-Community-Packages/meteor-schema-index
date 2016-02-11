@@ -1,10 +1,22 @@
 var books = new Mongo.Collection('books');
+
+if (Meteor.isServer) {
+  books.attachIndex('isbnIdx', {
+      unique: true,
+      action: 'rebuild',
+      background: false
+    }
+  );
+}
 books.attachSchema(new SimpleSchema({
   title: {
     type: String,
     label: 'Title',
     max: 200,
-    index: 1
+    index: {
+      name: 'titleIdx',
+      type:-1
+    }
   },
   author: {
     type: String,
@@ -30,8 +42,7 @@ books.attachSchema(new SimpleSchema({
     type: String,
     label: 'ISBN',
     optional: true,
-    index: 1,
-    unique: true
+    index: {name: 'isbnIdx'}
   },
   field1: {
     type: String,
@@ -51,7 +62,14 @@ books.attachSchema(new SimpleSchema({
   }
 }));
 
+
+
 if (Meteor.isServer) {
+  books.attachIndex('titleIdx', {
+    action: 'rebuild',
+    background: false
+  });
+
   Meteor.publish("books", function() {
     return books.find();
   });
@@ -131,8 +149,10 @@ Tinytest.addAsync('Collection2 - Unique - Insert Duplicate', function (test, nex
     copies: 1,
     isbn: isbn
   }, function (error, result) {
+    //console.log('error is', error);
     test.isTrue(!!error, 'We expected the insert to trigger an error since isbn being inserted is already used');
-    test.equal(error.invalidKeys.length, 1, 'We should get one invalidKey back attached to the Error object');
+    test.equal(error.code, 11000, 'We expected the insert to trigger an E11000 duplicate key error');
+    //test.equal(error.invalidKeys.length, 1, 'We should get one invalidKey back attached to the Error object');
     test.isFalse(result, 'result should be false');
 
     var invalidKeys = books.simpleSchema().namedContext().invalidKeys();
