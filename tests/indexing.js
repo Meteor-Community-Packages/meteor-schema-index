@@ -1,7 +1,7 @@
 var books = new Mongo.Collection('books');
 
 //one before and one after to verify that order doesn't matter
-books.attachIndex('c2_isbn', {
+books.attachIndex('isbn', {
     unique: true,
     action: 'rebuild',
     background: false
@@ -14,7 +14,7 @@ books.attachSchema(new SimpleSchema({
     label: 'Title',
     max: 200,
     index: {
-      name: 'c2_title',
+      name: 'title',
       type:-1
     }
   },
@@ -42,7 +42,7 @@ books.attachSchema(new SimpleSchema({
     type: String,
     label: 'ISBN',
     optional: true,
-    index: {name: 'c2_isbn'}
+    index: {name: 'isbn'}
   },
   field1: {
     type: String,
@@ -63,7 +63,7 @@ books.attachSchema(new SimpleSchema({
 }));
 
 
-books.attachIndex('c2_title', {
+books.attachIndex('title', {
   action: 'rebuild',
   background: false
 });
@@ -277,14 +277,14 @@ Tinytest.add('Collection2 - Unique - Object Array', function (test) {
     'a.$.b': {
       type: String,
       index: {
-        name: 'c2_a.b'
+        name: 'ab'
       }
     }
   });
 
   try {
     testCollection.attachSchema(testSchema);
-    testCollection.attachIndex('c2_a.b', {unique: true});
+    testCollection.attachIndex('ab', {unique: true});
   } catch (e) {
     // If we error, that means collection2 tried to set up the index incorrectly,
     // using the wrong index key

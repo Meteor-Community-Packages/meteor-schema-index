@@ -13,6 +13,72 @@ In your Meteor app directory, enter:
 $ meteor add aldeed:schema-index
 ```
 
+## Migration from 1.0.x to 2.0.x
+Version 1.0.x used index definitions exclusively on a collection's simpleschema.  Version 2 moves some of the index properties to an external function call (`attachIndex`).  Migration from 1.x to 2.x requires modificaiton of the simpleschema and addition of a call to `attachIndex` for each index to create.  For example in version 1.0.x:
+
+```js
+var books = new Mongo.Collection('books');
+books.attachSchema(new SimpleSchema({
+  title: {
+    type: String,
+    label: 'Title',
+    max: 200,
+    index: true
+  },
+  author: {
+    type: String,
+    label: 'Author'
+  },
+  isbn: {
+    type: String,
+    label: 'ISBN',
+    optional: true,
+    index: 1,
+    unique: true
+  },
+  //...
+}));
+```
+
+In version 2.0.x:
+
+```js
+var books = new Mongo.Collection('books');
+books.attachSchema(new SimpleSchema({
+  title: {
+    type: String,
+    label: 'Title',
+    max: 200,
+    index: {
+      name: 'title',
+      type:-1
+    }
+  },
+  author: {cccccccblegetujrrtbgfrcncllvketghefdehvhiuln
+  
+    type: String,
+    label: 'Author'
+  },
+  isbn: {
+    type: String,
+    label: 'ISBN',
+    optional: true,
+    index: {name: 'isbn'}
+  },
+  //...
+}));
+
+books.attachIndex('title');  //uses default index options
+books.attachIndex('isbn', {
+    unique: true,
+    action: 'rebuild' //<-- drops and recreates the index EVERY TIME you restart.
+  }
+);
+```
+
+For now, the index names added to mongo will not match the index names you specify.  It is overridden to maintain some compatibility with collection2 due to a limitation in how collection2 determines invalid keys for its invalidKeys() method.  Importantly, collection2 will not be able to determine the invalid keys for composite indexes if a constrain violation occurs. 
+
+
 ## Usage
 
 Use the `index` option to ensure a MongoDB index for a specific field,or for multiple fields, add the same index to each:
@@ -39,7 +105,7 @@ If you have created an index for a field by mistake and you want to remove or ch
 ```js
 books.attchIndex('titleIndex', 
   {
-    action: 'drop'
+    action: 'drop' //options are: 'rebuild', 'build', or 'drop' 
   }
 );
 ```

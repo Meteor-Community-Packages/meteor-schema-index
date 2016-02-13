@@ -19,7 +19,8 @@ Package.onUse(function(api) {
   ]);
 
   api.addFiles([
-    'lib/schemaIndex.js'
+    'lib/schemaIndex.js',
+    'lib/indexData.js'
   ], 'server');
 });
 
