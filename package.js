@@ -7,6 +7,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.use([
+    'ecmascript',
     'aldeed:collection2-core@1.0.0',
     'underscore@1.0.0',
     'minimongo@1.0.0',
@@ -20,6 +21,7 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.use([
+    'ecmascript',
     'aldeed:schema-index',
     'tinytest@1.0.0',
     'underscore@1.0.0',
