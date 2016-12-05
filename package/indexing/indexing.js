@@ -1,16 +1,15 @@
-// Extend the schema options allowed by SimpleSchema
-SimpleSchema.extendOptions({
-  index: Match.Optional(Match.OneOf(Number, String, Boolean)),
-  unique: Match.Optional(Boolean),
-  sparse: Match.Optional(Boolean),
-});
+// collection2-core checks to make sure that simpl-schema package is added
+import SimpleSchema from 'simpl-schema';
+import Collection2 from 'meteor/aldeed:collection2-core';
+import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
 
-// Define validation error messages (legacy)
-if (!SimpleSchema.version || SimpleSchema.version < 2) {
-  SimpleSchema.messages({
-    notUnique: '[label] must be unique',
-  });
-}
+// Extend the schema options allowed by SimpleSchema
+SimpleSchema.extendOptions([
+  'index', // one of Number, String, Boolean
+  'unique', // Boolean
+  'sparse', // Boolean
+]);
 
 if (Meteor.isServer) {
   Collection2.on('schema.attached', function (collection, ss) {

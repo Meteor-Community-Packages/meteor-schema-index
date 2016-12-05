@@ -57,11 +57,25 @@ For the `unique` option to work, `index` must be `true`, `1`, or `-1`. The error
 
 You can use the `sparse` option along with the `index` and `unique` options to tell MongoDB to build a [sparse index](http://docs.mongodb.org/manual/core/index-sparse/#index-type-sparse). By default, MongoDB will only permit one document that lacks the indexed field. By setting the `sparse` option to `true`, the index will only contain entries for documents that have the indexed field. The index skips over any document that is missing the field. This is helpful when indexing on a key in an array of sub-documents. Learn more in the [MongoDB docs](http://docs.mongodb.org/manual/core/index-unique/#unique-index-and-missing-field).
 
-All indexes are built in the background so indexing does *not* block other database queries. 
+All indexes are built in the background so indexing does *not* block other database queries.
 
 ## Contributing
 
 Anyone is welcome to contribute. Fork, make and test your changes (`meteor test-packages ./`), and then submit a pull request.
+
+### Running Tests
+
+```bash
+$ cd tests
+$ npm i && npm test
+```
+
+### Running Tests in Watch Mode
+
+```bash
+$ cd tests
+$ npm i && npm run test:watch
+```
 
 ### Major Contributors
 

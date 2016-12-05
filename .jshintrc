@@ -66,14 +66,10 @@
   "white": false,
   "globals": {},
   "predef": [
-    "Collection2",
-    "Match",
     "Meteor",
     "Mongo",
     "Package",
     "Random",
-    "SimpleSchema",
-    "Tinytest",
     "_"
   ]
 }
