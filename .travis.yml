@@ -1,0 +1,18 @@
+sudo: false
+
+language: node_js
+# Will use version from .nvmrc
+
+cache:
+  directories:
+    - $HOME/.npm
+
+before_install:
+  - curl https://install.meteor.com | /bin/sh
+  - export PATH="$HOME/.meteor:$PATH"
+
+install:
+  - cd tests && npm install
+
+script:
+  - npm test
