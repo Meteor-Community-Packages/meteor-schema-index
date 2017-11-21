@@ -44,7 +44,9 @@ if (Meteor.isServer) {
     const propName = ss.version === 2 ? 'mergedSchema' : 'schema';
 
     // Loop over fields definitions and ensure collection indexes (server side only)
-    _.each(ss[propName](), function(definition, fieldName) {
+    var schema = ss[propName]();
+    Object.keys(schema).forEach(function (fieldName) {
+      var definition = schema[fieldName];
       if ('index' in definition || definition.unique === true) {
         var index = {}, indexValue;
         // If they specified `unique: true` but not `index`,

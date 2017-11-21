@@ -10,7 +10,6 @@ Package.onUse(function(api) {
   api.use([
     'aldeed:collection2-core@2.0.0',
     'ecmascript@0.6.1',
-    'underscore@1.0.0',
   ]);
 
   api.mainModule('indexing.js');
