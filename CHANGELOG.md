@@ -1,5 +1,9 @@
 # Change Log
 
+# 2.1.0
+
+Remove meteor/underscore package dependency
+
 # 2.0.0
 
 For use with aldeed:collection2-core@2.0.0. Requires SimpleSchema 2.0
