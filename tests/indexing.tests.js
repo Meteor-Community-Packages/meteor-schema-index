@@ -126,7 +126,7 @@ describe('unique', function () {
         copies: 1,
         isbn: isbn,
       }, (error, id) => {
-        expect(!!error).toBe(true);
+        expect(error && error.message).toBe('ISBN must be unique');
         expect(!!id).toBe(false);
 
         const validationErrors = test.simpleSchema().namedContext().validationErrors();

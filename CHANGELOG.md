@@ -1,5 +1,9 @@
 # Change Log
 
+# vNext
+
+Fix default error message for `notUnique` errors
+
 # 2.1.0
 
 Remove meteor/underscore package dependency

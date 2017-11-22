@@ -2,7 +2,6 @@
 import SimpleSchema from 'simpl-schema';
 import Collection2 from 'meteor/aldeed:collection2-core';
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
 
 // Extend the schema options allowed by SimpleSchema
 SimpleSchema.extendOptions([
@@ -11,15 +10,19 @@ SimpleSchema.extendOptions([
   'sparse', // Boolean
 ]);
 
+Collection2.on('schema.attached', function (collection, ss) {
+  // Define validation error messages
+  if (ss.version >= 2 && ss.messageBox && typeof ss.messageBox.messages === 'function') {
+    ss.messageBox.messages({
+      en: {
+        notUnique: '{{label}} must be unique',
+      },
+    });
+  }
+});
+
 if (Meteor.isServer) {
   Collection2.on('schema.attached', function (collection, ss) {
-    // Define validation error messages
-    if (ss.version >= 2) {
-      ss.messageBox.messages({
-        notUnique: '{{label}} must be unique',
-      });
-    }
-
     function ensureIndex(index, indexName, unique, sparse) {
       Meteor.startup(function () {
         collection._collection._ensureIndex(index, {
