@@ -1,6 +1,6 @@
 # Change Log
 
-# vNext
+# 2.1.1
 
 Fix default error message for `notUnique` errors
 
