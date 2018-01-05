@@ -1,5 +1,6 @@
 import Collection2 from 'meteor/aldeed:collection2';
 import { Meteor } from 'meteor/meteor';
+import Future from 'fibers/future';
 
 import './common';
 
@@ -25,10 +26,27 @@ Collection2.on('schema.attached', (collection, ss) => {
     });
   }
 
+  function getCollectionIndexes(rawCollection) {
+    try {
+      const future = new Future();
+      rawCollection.indexes(future.resolver());
+
+      return future.wait();
+    } catch (exception) {
+      return [];
+    }
+  }
+
   const propName = ss.version === 2 ? 'mergedSchema' : 'schema';
 
   // Loop over fields definitions and ensure collection indexes (server side only)
   const schema = ss[propName]();
+
+  const existingIndexes = {};
+  getCollectionIndexes(collection._collection.rawCollection()).forEach((index) => {
+    existingIndexes[index.name] = index;
+  });
+
   Object.keys(schema).forEach((fieldName) => {
     const definition = schema[fieldName];
     if ('index' in definition || definition.unique === true) {
@@ -56,6 +74,13 @@ Collection2.on('schema.attached', (collection, ss) => {
       if (indexValue === false) {
         dropIndex(indexName);
       } else {
+        // If the value of 'unique' or 'sparse' changes, please re-create this index.
+        if (indexName in existingIndexes && (
+          !!existingIndexes[indexName].unique !== unique ||
+          !!existingIndexes[indexName].sparse !== sparse
+        )) {
+          dropIndex(indexName);
+        }
         ensureIndex(index, indexName, unique, sparse);
       }
     }
