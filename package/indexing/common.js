@@ -9,7 +9,7 @@ SimpleSchema.extendOptions([
   'sparse', // Boolean
 ]);
 
-Collection2.on('schema.attached', function (collection, ss) {
+Collection2.on('schema.attached', (collection, ss) => {
   // Define validation error messages
   if (ss.version >= 2 && ss.messageBox && typeof ss.messageBox.messages === 'function') {
     ss.messageBox.messages({
