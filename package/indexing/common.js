@@ -1,6 +1,6 @@
-// collection2-core checks to make sure that simpl-schema package is added
+// collection2 checks to make sure that simpl-schema package is added
 import SimpleSchema from 'simpl-schema';
-import Collection2 from 'meteor/aldeed:collection2-core';
+import Collection2 from 'meteor/aldeed:collection2';
 
 // Extend the schema options allowed by SimpleSchema
 SimpleSchema.extendOptions([
