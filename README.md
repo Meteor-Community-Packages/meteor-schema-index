@@ -59,6 +59,14 @@ You can use the `sparse` option along with the `index` and `unique` options to t
 
 All indexes are built in the background so indexing does *not* block other database queries.
 
+### Text index
+Note that `text` index work differently. There can be only one `text` index per
+MongoDB collection. When using `index: 'text'` you can optionally include the
+`indexWeight: num` option. Where `num` is an integer greater than zero. Defaults
+to 1. This is the relative weight compared to all the fields that have the `text`
+index. See the MongoDB [docs](http://docs.mongodb.org/manual/tutorial/control-results-of-text-search/).
+If any one of the fields has `sparse: true` then the index will have `sparse: true`.
+
 ## Contributing
 
 Anyone is welcome to contribute. Fork, make and test your changes (`meteor test-packages ./`), and then submit a pull request.

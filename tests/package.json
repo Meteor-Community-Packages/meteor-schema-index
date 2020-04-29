@@ -7,16 +7,16 @@
     "test:watch:browser": "METEOR_PACKAGE_DIRS=../package TEST_WATCH=1 meteor test --driver-package meteortesting:mocha"
   },
   "dependencies": {
+    "@babel/runtime": "^7.9.2",
     "babel-polyfill": "^6.26.0",
-    "babel-runtime": "^6.26.0",
-    "meteor-node-stubs": "^0.3.2",
-    "simpl-schema": "^1.4.1"
+    "meteor-node-stubs": "^1.0.0",
+    "simpl-schema": "^1.7.0"
   },
   "devDependencies": {
-    "chromedriver": "^2.35.0",
-    "expect": "^1.20.2",
-    "istanbul-lib-coverage": "^1.1.1",
-    "nightmare": "^2.10.0",
+    "chromedriver": "^81.0.0",
+    "expect": "^25.5.0",
+    "istanbul-lib-coverage": "^3.0.0",
+    "nightmare": "^3.0.2",
     "selenium-webdriver": "^3.6.0"
   }
 }

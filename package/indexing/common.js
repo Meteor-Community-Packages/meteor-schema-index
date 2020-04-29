@@ -7,6 +7,7 @@ SimpleSchema.extendOptions([
   'index', // one of Number, String, Boolean
   'unique', // Boolean
   'sparse', // Boolean
+  'indexWeight', // Integer
 ]);
 
 Collection2.on('schema.attached', (collection, ss) => {

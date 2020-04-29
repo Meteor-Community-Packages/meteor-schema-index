@@ -4,13 +4,11 @@ import { Meteor } from 'meteor/meteor';
 import './common';
 
 Collection2.on('schema.attached', (collection, ss) => {
-  function ensureIndex(index, name, unique, sparse) {
+  function ensureIndex(index, options) {
     Meteor.startup(() => {
       collection._collection._ensureIndex(index, {
         background: true,
-        name,
-        unique,
-        sparse,
+        ...options,
       });
     });
   }
@@ -29,6 +27,8 @@ Collection2.on('schema.attached', (collection, ss) => {
 
   // Loop over fields definitions and ensure collection indexes (server side only)
   const schema = ss[propName]();
+  const textIndex = new Map();
+  let textIndexSparse = false;
   Object.keys(schema).forEach((fieldName) => {
     const definition = schema[fieldName];
     if ('index' in definition || definition.unique === true) {
@@ -39,6 +39,11 @@ Collection2.on('schema.attached', (collection, ss) => {
       if ('index' in definition) {
         indexValue = definition.index;
         if (indexValue === true) indexValue = 1;
+        if (indexValue === 'text') {
+          textIndex.set(indexValue, definition.indexWeight || 1);
+          textIndexSparse = textIndexSparse || !!definition.optional;
+          return;
+        }
       } else {
         indexValue = 1;
       }
@@ -56,8 +61,17 @@ Collection2.on('schema.attached', (collection, ss) => {
       if (indexValue === false) {
         dropIndex(indexName);
       } else {
-        ensureIndex(index, indexName, unique, sparse);
+        ensureIndex(index, { name: indexName, unique, sparse });
       }
+    }
+    if (textIndex.length > 0) {
+      const index = {};
+      const weights = {};
+      textIndex.forEach((v, k) => {
+        index[k] = 'text';
+        weights[k] = v;
+      });
+      ensureIndex(index, { name: 'c2_textIndex', sparse: textIndexSparse, weights });
     }
   });
 });

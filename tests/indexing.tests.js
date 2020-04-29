@@ -17,6 +17,8 @@ test.attachSchema(new SimpleSchema({
   author: {
     type: String,
     label: 'Author',
+    index: 'test',
+    indexWeight: 5,
   },
   copies: {
     type: Number,
@@ -33,6 +35,8 @@ test.attachSchema(new SimpleSchema({
     label: 'Brief summary',
     optional: true,
     max: 1000,
+    index: 'text',
+    indexWeight: 1,
   },
   isbn: {
     type: String,
