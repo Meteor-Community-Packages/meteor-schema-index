@@ -6,7 +6,7 @@ import "./common";
 Collection2.on("schema.attached", (collection, ss) => {
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
-      collection._collection._ensureIndex(index, {
+      collection._collection._createIndex(index, {
         background: true,
         name,
         unique,
