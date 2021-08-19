@@ -4,6 +4,8 @@ import { Meteor } from "meteor/meteor";
 import "./common";
 
 Collection2.on("schema.attached", (collection, ss) => {
+  if (Meteor.settings.collection2.dontRunIndexing) return;
+
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
       collection._collection._ensureIndex(index, {
