@@ -4,14 +4,23 @@ import { Meteor } from "meteor/meteor";
 import "./common";
 
 Collection2.on("schema.attached", (collection, ss) => {
-  function ensureIndex(index, name, unique, sparse) {
+  function createIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
-      collection._collection._ensureIndex(index, {
-        background: true,
-        name,
-        unique,
-        sparse,
-      });
+      if (collection._collection.createIndex) {
+        collection._collection.createIndex(index, {
+          background: true,
+          name,
+          unique,
+          sparse,
+        });
+      } else {
+        collection._collection._ensureIndex(index, {
+          background: true,
+          name,
+          unique,
+          sparse,
+        });
+      }
     });
   }
 
@@ -57,7 +66,7 @@ Collection2.on("schema.attached", (collection, ss) => {
       if (indexValue === false) {
         dropIndex(indexName);
       } else {
-        ensureIndex(index, indexName, unique, sparse);
+        createIndex(index, indexName, unique, sparse);
       }
     }
   });
