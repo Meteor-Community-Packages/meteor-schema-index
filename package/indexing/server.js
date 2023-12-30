@@ -6,8 +6,8 @@ import "./common";
 Collection2.on("schema.attached", (collection, ss) => {
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
-      if (collection.createIndex) {
-        collection.createIndex(index, {
+      if (collection._collection.createIndex) {
+        collection._collection.createIndex(index, {
           background: true,
           name,
           unique,
@@ -27,8 +27,8 @@ Collection2.on("schema.attached", (collection, ss) => {
   function dropIndex(indexName) {
     Meteor.startup(() => {
       try {
-        if (collection.dropIndex) {
-          collection.dropIndex(indexName);
+        if (collection._collection.dropIndex) {
+          collection._collection.dropIndex(indexName);
         } else {
           collection._collection._dropIndex(indexName);
         }
