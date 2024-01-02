@@ -17,12 +17,12 @@ jobs:
     # needs: [lintcode,lintstyle,lintdocs] # we could add prior jobs for linting, if desired
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup meteor
         uses: meteorengineer/setup-meteor@v1
         with:
-          meteor-release: '2.2'
+          meteor-release: '2.14'
 
       - name: cache dependencies
         uses: actions/cache@v1
