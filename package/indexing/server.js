@@ -1,5 +1,7 @@
-import Collection2 from 'meteor/aldeed:collection2';
+import 'meteor/aldeed:collection2/dynamic';
 import { Meteor } from 'meteor/meteor';
+
+Collection2.load();
 
 import './common';
 

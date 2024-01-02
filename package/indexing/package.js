@@ -8,8 +8,9 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.use([
-    'aldeed:collection2@3.0.0',
-    'ecmascript@0.6.1',
+    'aldeed:collection2@4.0.0-beta.6',
+    'aldeed:simple-schema@1.13.1',
+    'ecmascript',
   ]);
 
   api.mainModule('client.js', 'client');

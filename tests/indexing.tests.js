@@ -4,7 +4,7 @@ import expect from 'expect';
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Random } from 'meteor/random';
-import SimpleSchema from 'simpl-schema';
+import SimpleSchema from "meteor/aldeed:simple-schema";
 
 const test = new Mongo.Collection('test');
 test.attachSchema(new SimpleSchema({
@@ -76,10 +76,10 @@ describe('unique', () => {
     });
   });
 
-  it('insert does not fail if the value is unique', (done) => {
+  it('insert does not fail if the value is unique', async () => {
     const isbn = Random.id();
     // Insert isbn
-    test.insert({
+    test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
@@ -92,7 +92,7 @@ describe('unique', () => {
       expect(validationErrors.length).toBe(0);
 
       // Insert isbn+'A'
-      test.insert({
+      test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
@@ -104,15 +104,14 @@ describe('unique', () => {
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(0);
 
-        done();
       });
     });
   });
 
-  it('insert fails if another document already has the same value', (done) => {
+  it('insert fails if another document already has the same value', async () => {
     const isbn = Random.id();
     // Insert isbn
-    test.insert({
+    test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
@@ -125,7 +124,7 @@ describe('unique', () => {
       expect(validationErrors.length).toBe(0);
 
       // Insert same isbn again
-      test.insert({
+      test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
@@ -141,16 +140,15 @@ describe('unique', () => {
         expect(key.name).toBe('isbn');
         expect(key.type).toBe('notUnique');
 
-        done();
       });
     });
   });
 
-  it('insert fails on duplicate if there is a unique index from outside collection2', (done) => {
+  it('insert fails on duplicate if there is a unique index from outside collection2', async () => {
     const val = Meteor.isServer ? 'foo' : 'bar';
 
     // Good insert
-    test.insert({
+    test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
@@ -164,7 +162,7 @@ describe('unique', () => {
       expect(validationErrors.length).toBe(0);
 
       // Bad insert
-      test.insert({
+      test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
@@ -179,17 +177,16 @@ describe('unique', () => {
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(0);
 
-        done();
       });
     });
   });
 
-  it('validation without updating', (done) => {
+  it('validation without updating', async () => {
     const context = test.simpleSchema().namedContext();
 
     const isbn = Random.id();
     // Insert isbn
-    test.insert({
+    test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
@@ -219,36 +216,34 @@ describe('unique', () => {
       validationErrors = context.validationErrors();
       expect(validationErrors.length).toBe(0);
 
-      done();
     });
   });
 
-  it('updates do not fail when the document being updated has the same value', (done) => {
+  it('updates do not fail when the document being updated has the same value', async () => {
     const isbn = Random.id();
     // Insert isbn
-    test.insert({
+    test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
       isbn,
     }, (error, id) => {
-      test.update(id, {
+      test.updateAsync(id, {
         $set: { isbn },
       }, (error) => {
         expect(!!error).toBe(false);
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(0);
-        done();
       });
     });
   });
 
-  it('update fails if another document already has the same value', (done) => {
+  it('update fails if another document already has the same value', async () => {
     const isbn1 = Random.id();
     const isbn2 = Random.id();
 
     // Insert isbn1
-    test.insert({
+    test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
@@ -258,7 +253,7 @@ describe('unique', () => {
       expect(typeof id).toBe('string');
 
       // Insert isbn2
-      test.insert({
+      test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
@@ -268,7 +263,7 @@ describe('unique', () => {
         expect(typeof id).toBe('string');
 
         // Try changing isbn2 to isbn1
-        test.update(id, {
+        test.updateAsync(id, {
           $set: { isbn: isbn1 },
         }, (error, result) => {
           expect(!!error).toBe(true);
@@ -281,7 +276,6 @@ describe('unique', () => {
           expect(key.name).toBe('isbn');
           expect(key.type).toBe('notUnique');
 
-          done();
         });
       });
     });
@@ -293,6 +287,8 @@ describe('unique', () => {
     // index key must be 'a.b' if, for example, the schema key is 'a.$.b'.
     // Here we make sure that works.
     const testSchema = new SimpleSchema({
+      'a': Array,
+      'a.$': Object,
       'a.$.b': {
         type: String,
         unique: true,
@@ -301,6 +297,6 @@ describe('unique', () => {
 
     expect(() => {
       testCollection.attachSchema(testSchema);
-    }).toNotThrow();
+    }).not.toThrow();
   });
 });
