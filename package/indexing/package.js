@@ -10,7 +10,7 @@ Package.onUse(function(api) {
   api.use([
     'aldeed:collection2@4.0.0-beta.6',
     'aldeed:simple-schema@1.13.1',
-    'ecmascript',
+    'ecmascript@0.16.8',
   ]);
 
   api.mainModule('client.js', 'client');
