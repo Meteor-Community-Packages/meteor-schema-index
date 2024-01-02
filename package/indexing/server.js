@@ -8,7 +8,7 @@ import './common';
 Collection2.on('schema.attached', (collection, ss) => {
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
-      collection._collection._ensureIndex(index, {
+      collection.createIndexAsync(index, {
         background: true,
         name,
         unique,
@@ -20,7 +20,7 @@ Collection2.on('schema.attached', (collection, ss) => {
   function dropIndex(indexName) {
     Meteor.startup(() => {
       try {
-        collection._collection._dropIndex(indexName);
+        collection.dropIndexAsync(indexName);
       } catch (err) {
         // no index with that name, which is what we want
       }
