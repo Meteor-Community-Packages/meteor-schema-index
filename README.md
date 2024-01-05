@@ -1,4 +1,4 @@
-aldeed:schema-index
+harry97:schema-index
 =========================
 
 A Meteor package that allows you to control some MongoDB indexing from your SimpleSchema. This package is currently included automatically with the aldeed:collection2 package.
@@ -8,7 +8,7 @@ A Meteor package that allows you to control some MongoDB indexing from your Simp
 In your Meteor app directory, enter:
 
 ```
-$ meteor add aldeed:schema-index
+$ meteor add harry97:schema-index
 ```
 
 ## Usage
