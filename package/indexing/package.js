@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'harry97:schema-index',
+  name: 'aldeed:schema-index',
   summary: 'Control some MongoDB indexing with schema options',
   version: '4.0.0',
   documentation: '../../README.md',
