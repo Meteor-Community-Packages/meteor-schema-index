@@ -4,7 +4,7 @@ import { Meteor } from "meteor/meteor";
 import "./common";
 
 Collection2.on("schema.attached", (collection, ss) => {
-  if (Meteor.settings.packages.collection2.dontRunIndexing) return;
+  if (Meteor.settings?.packages?.collection2?.dontRunIndexing) return;
 
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {

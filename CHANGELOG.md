@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.2.0
+
+New feature to disable indexing through setting a variable in Meteor settings
+
 ## 3.1.0
 
 Update dependencies (`aldeed:collection2@3.5.0`, `ecmascript` according to Meteor version)
