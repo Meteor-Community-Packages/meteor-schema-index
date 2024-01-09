@@ -8,19 +8,32 @@ Collection2.on("schema.attached", (collection, ss) => {
 
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
-      collection._collection._ensureIndex(index, {
-        background: true,
-        name,
-        unique,
-        sparse,
-      });
+      if (collection._collection.createIndex) {
+        collection._collection.createIndex(index, {
+          background: true,
+          name,
+          unique,
+          sparse,
+        });
+      } else {
+        collection._collection._ensureIndex(index, {
+          background: true,
+          name,
+          unique,
+          sparse,
+        });
+      }
     });
   }
 
   function dropIndex(indexName) {
     Meteor.startup(() => {
       try {
-        collection._collection._dropIndex(indexName);
+        if (collection._collection.dropIndex) {
+          collection._collection.dropIndex(indexName);
+        } else {
+          collection._collection._dropIndex(indexName);
+        }
       } catch (err) {
         // no index with that name, which is what we want
       }

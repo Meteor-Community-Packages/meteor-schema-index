@@ -3,7 +3,7 @@
 aldeed:schema-index
 =========================
 
-A Meteor package that allows you to control some MongoDB indexing from your SimpleSchema. This package is currently included automatically with the aldeed:collection2 package.
+A Meteor package that allows you to control some MongoDB indexing from your SimpleSchema.
 
 ## Installation
 
