@@ -1,7 +1,7 @@
 Package.describe({
   name: 'aldeed:schema-index',
   summary: 'Control some MongoDB indexing with schema options',
-  version: '4.0.0',
+  version: '4.0.0-beta.0',
   documentation: '../../README.md',
   git: 'https://github.com/aldeed/meteor-schema-index.git',
 });
