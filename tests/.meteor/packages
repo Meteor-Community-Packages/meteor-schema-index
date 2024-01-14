@@ -23,7 +23,7 @@ insecure@1.0.7                # Allow all DB writes from clients (for prototypin
 
 underscore@1.0.13
 random@1.2.1
-aldeed:schema-index@4.0.0
+aldeed:schema-index
 dynamic-import@0.7.3
 meteortesting:mocha
-aldeed:collection2@3.2.1
+aldeed:collection2@4.0.0-beta.7

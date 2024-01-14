@@ -62,11 +62,11 @@ test.attachSchema(new SimpleSchema({
 // Add one unique index outside of C2
 if (Meteor.isServer) {
   try {
-    test._dropIndex({ field1: 1, field2: 1 });
+    await test.dropIndexAsync({ field1: 1, field2: 1 });
   } catch (error) {
     // ignore
   }
-  test._ensureIndex({ field1: 1, field2: 1 }, { unique: true, sparse: true });
+  test.createIndexAsync({ field1: 1, field2: 1 }, { unique: true, sparse: true });
 }
 
 describe('unique', () => {

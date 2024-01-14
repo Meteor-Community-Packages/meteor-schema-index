@@ -7,10 +7,10 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom(["1.12.1", "2.3.6", "2.8.1"]);
+  api.versionsFrom(["2.8.1", '3.0-beta.0']);
   api.use("ecmascript");
   api.use([
-    'aldeed:collection2@4.0.0-beta.6',
+    'aldeed:collection2@4.0.0-beta.7',
     'aldeed:simple-schema@1.13.1',
   ]);
 
