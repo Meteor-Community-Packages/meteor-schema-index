@@ -59,6 +59,20 @@ You can use the `sparse` option along with the `index` and `unique` options to t
 
 All indexes are built in the background so indexing does *not* block other database queries.
 
+## Disabling Indexing
+
+If you want to disable indexing via collection2 for your app you can set the following variable in your settings:
+
+```js
+{
+  "packages": {
+    "collection2": {
+      "disableIndexing": true
+    }
+  }
+}
+```
+
 ## Contributing
 
 Anyone is welcome to contribute. Fork, make and test your changes (`meteor test-packages ./`), and then submit a pull request.
