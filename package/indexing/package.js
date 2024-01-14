@@ -7,12 +7,13 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
+  api.versionsFrom(["1.12.1", "2.3.6", "2.8.1"]);
+  api.use("ecmascript");
   api.use([
     'aldeed:collection2@4.0.0-beta.6',
     'aldeed:simple-schema@1.13.1',
-    'ecmascript@0.16.8',
   ]);
 
-  api.mainModule('client.js', 'client');
-  api.mainModule('server.js', 'server');
+  api.mainModule("client.js", "client");
+  api.mainModule("server.js", "server");
 });

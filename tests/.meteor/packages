@@ -26,3 +26,4 @@ random@1.2.1
 aldeed:schema-index@4.0.0
 dynamic-import@0.7.3
 meteortesting:mocha
+aldeed:collection2@3.2.1

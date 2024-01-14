@@ -10,6 +10,9 @@
     "@babel/runtime": "^7.23.7",
     "meteor-node-stubs": "^1.0.1"
   },
+  "meteor": {
+    "testModule": "tests/main.js"
+  },
   "devDependencies": {
     "expect": "^26.6.2",
     "puppeteer": "^19.11.1"

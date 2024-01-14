@@ -1,5 +1,10 @@
 # Change Log
 
+## 3.1.0
+
+Update dependencies (`aldeed:collection2@3.5.0`, `ecmascript` according to Meteor version)
+Index creation and dropping has been updated to use newer API if available
+
 ## 3.0.0
 
 Updated to depend on `aldeed:collection2@3.0.0` rather than `aldeed:collection2-core`. Core has been merged back into the main package as a 3.0.0 release.
