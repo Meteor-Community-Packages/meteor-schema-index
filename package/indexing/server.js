@@ -1,8 +1,6 @@
 import 'meteor/aldeed:collection2/dynamic';
 import { Meteor } from 'meteor/meteor';
 
-Collection2.load();
-
 import './common';
 
 Collection2.on("schema.attached", (collection, ss) => {

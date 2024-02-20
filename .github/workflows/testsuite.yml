@@ -17,7 +17,7 @@ jobs:
     # needs: [lintcode,lintstyle,lintdocs] # we could add prior jobs for linting, if desired
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup meteor
         uses: meteorengineer/setup-meteor@v1
@@ -25,7 +25,7 @@ jobs:
           meteor-release: '2.14'
 
       - name: cache dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
