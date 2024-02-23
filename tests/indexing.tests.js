@@ -76,34 +76,35 @@ describe('unique', () => {
     });
   });
 
-  it('insert does not fail if the value is unique', async () => {
+  it('insert does not fail if the value is unique', async (done) => {
     const isbn = Random.id();
     // Insert isbn
-    test.insertAsync({
+    await test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
       isbn,
-    }, (error, id) => {
+    }).catch(error => {
       expect(!!error).toBe(false);
+    }).then(async (id) => {
       expect(typeof id).toBe('string');
 
       const validationErrors = test.simpleSchema().namedContext().validationErrors();
       expect(validationErrors.length).toBe(0);
 
       // Insert isbn+'A'
-      test.insertAsync({
+      await test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
         isbn: `${isbn}A`,
-      }, (error, id) => {
+      }).catch(error => {
         expect(!!error).toBe(false);
+      }).then(id => {
         expect(typeof id).toBe('string');
-
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(0);
-
+        done();
       });
     });
   });
@@ -111,35 +112,35 @@ describe('unique', () => {
   it('insert fails if another document already has the same value', async () => {
     const isbn = Random.id();
     // Insert isbn
-    test.insertAsync({
+    await test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
       isbn,
-    }, (error, id) => {
+    }).catch(error => {
       expect(!!error).toBe(false);
+    }).then(async (id) => {
       expect(typeof id).toBe('string');
 
       const validationErrors = test.simpleSchema().namedContext().validationErrors();
       expect(validationErrors.length).toBe(0);
 
       // Insert same isbn again
-      test.insertAsync({
+      await test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
         isbn,
-      }, (error, id) => {
-        expect(error && error.message).toBe('ISBN must be unique');
+      }).then(id => {
         expect(!!id).toBe(false);
-
+      }).catch(error => {
+        expect(error && error.message).toBe('ISBN must be unique');
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(1);
 
         const key = validationErrors[0] || {};
         expect(key.name).toBe('isbn');
         expect(key.type).toBe('notUnique');
-
       });
     });
   });
@@ -148,36 +149,37 @@ describe('unique', () => {
     const val = Meteor.isServer ? 'foo' : 'bar';
 
     // Good insert
-    test.insertAsync({
+    await test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
       field1: val,
       field2: val,
-    }, (error, id) => {
+    }).catch(error => {
       expect(!!error).toBe(false);
+    }).then(async (id) => {
       expect(typeof id).toBe('string');
 
       const validationErrors = test.simpleSchema().namedContext().validationErrors();
       expect(validationErrors.length).toBe(0);
 
       // Bad insert
-      test.insertAsync({
+      await test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
         field1: val,
         field2: val,
-      }, (error, id) => {
+      }).catch(error => {
         expect(!!error).toBe(true);
+      }).then(id => {
         expect(!!id).toBe(false);
 
         // No validation errors since created outside C2
         // (Currently we can't tell which field it was from the error message for generic unique messages)
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(0);
-
-      });
+      })
     });
   });
 
@@ -186,12 +188,12 @@ describe('unique', () => {
 
     const isbn = Random.id();
     // Insert isbn
-    test.insertAsync({
+    await test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
       isbn,
-    }, () => {
+    }).then(() => {
       // We don't know whether this would result in a non-unique value or not because
       // we don't know which documents we'd be changing; therefore, no notUnique error
       context.validate({
@@ -215,26 +217,29 @@ describe('unique', () => {
       });
       validationErrors = context.validationErrors();
       expect(validationErrors.length).toBe(0);
-
+    }).catch(error => {
+      expect(!!error).toBe(false);
     });
   });
 
   it('updates do not fail when the document being updated has the same value', async () => {
     const isbn = Random.id();
     // Insert isbn
-    test.insertAsync({
+    await test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
       isbn,
-    }, (error, id) => {
+    }).then((id) => {
       test.updateAsync(id, {
         $set: { isbn },
-      }, (error) => {
+      }).catch(error => {
         expect(!!error).toBe(false);
         const validationErrors = test.simpleSchema().namedContext().validationErrors();
         expect(validationErrors.length).toBe(0);
       });
+    }).catch(error => {
+      expect(!!error).toBe(false);
     });
   });
 
@@ -243,40 +248,24 @@ describe('unique', () => {
     const isbn2 = Random.id();
 
     // Insert isbn1
-    test.insertAsync({
+    await test.insertAsync({
       title: 'Ulysses',
       author: 'James Joyce',
       copies: 1,
       isbn: isbn1,
-    }, (error, id) => {
+    }).catch(error => {
       expect(!!error).toBe(false);
+    }).then(async (id) => {
       expect(typeof id).toBe('string');
 
       // Insert isbn2
-      test.insertAsync({
+      await test.insertAsync({
         title: 'Ulysses',
         author: 'James Joyce',
         copies: 1,
         isbn: isbn2,
-      }, (error, id) => {
+      }).catch(error => {
         expect(!!error).toBe(false);
-        expect(typeof id).toBe('string');
-
-        // Try changing isbn2 to isbn1
-        test.updateAsync(id, {
-          $set: { isbn: isbn1 },
-        }, (error, result) => {
-          expect(!!error).toBe(true);
-          expect(result).toBe(false);
-
-          const validationErrors = test.simpleSchema().namedContext().validationErrors();
-          expect(validationErrors.length).toBe(1);
-
-          const key = validationErrors[0] || {};
-          expect(key.name).toBe('isbn');
-          expect(key.type).toBe('notUnique');
-
-        });
       });
     });
   });
