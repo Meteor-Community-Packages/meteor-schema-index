@@ -124,24 +124,24 @@ describe('unique', () => {
 
       const validationErrors = test.simpleSchema().namedContext().validationErrors();
       expect(validationErrors.length).toBe(0);
+    });
 
-      // Insert same isbn again
-      await test.insertAsync({
-        title: 'Ulysses',
-        author: 'James Joyce',
-        copies: 1,
-        isbn,
-      }).then(id => {
-        expect(!!id).toBe(false);
-      }).catch(error => {
-        expect(error && error.message).toBe('ISBN must be unique');
-        const validationErrors = test.simpleSchema().namedContext().validationErrors();
-        expect(validationErrors.length).toBe(1);
+    // Insert same isbn again
+    await test.insertAsync({
+      title: 'Ulysses',
+      author: 'James Joyce',
+      copies: 1,
+      isbn,
+    }).catch(error => {
+      expect(error && error.message).toBe('ISBN must be unique');
+      const validationErrors = test.simpleSchema().namedContext().validationErrors();
+      expect(validationErrors.length).toBe(1);
 
-        const key = validationErrors[0] || {};
-        expect(key.name).toBe('isbn');
-        expect(key.type).toBe('notUnique');
-      });
+      const key = validationErrors[0] || {};
+      expect(key.name).toBe('isbn');
+      expect(key.type).toBe('notUnique');
+    }).then(id => {
+      expect(!!id).toBe(false);
     });
   });
 
