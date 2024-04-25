@@ -7,8 +7,9 @@
     "test:watch:browser": "METEOR_PACKAGE_DIRS=../package TEST_WATCH=1 meteor test --driver-package meteortesting:mocha"
   },
   "dependencies": {
-    "@babel/runtime": "^7.23.9",
-    "meteor-node-stubs": "^1.2.7"
+    "@babel/runtime": "^7.24.4",
+    "jquery": "^3.7.1",
+    "meteor-node-stubs": "^1.2.9"
   },
   "meteor": {
     "testModule": "./indexing.tests.js"
