@@ -66,7 +66,7 @@ if (Meteor.isServer) {
   } catch (error) {
     // ignore
   }
-  test.createIndexAsync({ field1: 1, field2: 1 }, { unique: true, sparse: true });
+  await test.createIndexAsync({ field1: 1, field2: 1 }, { unique: true, sparse: true });
 }
 
 describe('unique', () => {

@@ -7,7 +7,7 @@ Collection2.on("schema.attached", (collection, ss) => {
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
       collection.createIndexAsync(index, {
-        background: true,
+        // background: true,
         name,
         unique,
         sparse,
