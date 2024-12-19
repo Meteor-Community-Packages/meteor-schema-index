@@ -5,3 +5,5 @@ node_modules
 npm-debug.log
 tests/jsconfig.json
 tests/.vscode/launch.json
+
+.idea/
