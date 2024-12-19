@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.1.1
+
+Added compatibility option with `aldeed:collection2@4.0.4`
+
 ## 3.1.0
 
 Update dependencies (`aldeed:collection2@3.5.0`, `ecmascript` according to Meteor version)
