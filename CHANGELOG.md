@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.0.1
+
+Added compatibility option with `aldeed:simple-schema` v3
+
 ## 4.0.0
 
 Package now depends on `aldeed:simple-schema` instead of NPM package.
