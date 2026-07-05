@@ -1,8 +1,17 @@
 # Change Log
 
-## 3.2.0
+## 4.1.0
 
 New feature to disable indexing through setting a variable in Meteor settings
+
+## 4.0.0
+
+Package now depends on `aldeed:simple-schema` instead of NPM package.
+Async fixes for Meteor 3, minimum required Meteor version is 2.8.1
+
+## 3.1.1
+
+Added compatibility option with `aldeed:collection2@4.0.4`
 
 ## 3.1.0
 

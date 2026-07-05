@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/aldeed/meteor-schema-index/tree/master.svg?style=svg)](https://circleci.com/gh/aldeed/meteor-schema-index/tree/master)
-
 aldeed:schema-index
 =========================
 

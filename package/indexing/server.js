@@ -1,39 +1,26 @@
-import Collection2 from "meteor/aldeed:collection2";
-import { Meteor } from "meteor/meteor";
+import 'meteor/aldeed:collection2/dynamic';
+import { Meteor } from 'meteor/meteor';
 
-import "./common";
+import './common';
 
 Collection2.on("schema.attached", (collection, ss) => {
   if (Meteor.settings?.packages?.collection2?.disableIndexing) return;
 
   function ensureIndex(index, name, unique, sparse) {
     Meteor.startup(() => {
-      if (collection._collection.createIndex) {
-        collection._collection.createIndex(index, {
-          background: true,
-          name,
-          unique,
-          sparse,
-        });
-      } else {
-        collection._collection._ensureIndex(index, {
-          background: true,
-          name,
-          unique,
-          sparse,
-        });
-      }
+      collection.createIndexAsync(index, {
+        // background: true,
+        name,
+        unique,
+        sparse,
+      });
     });
   }
 
   function dropIndex(indexName) {
     Meteor.startup(() => {
       try {
-        if (collection._collection.dropIndex) {
-          collection._collection.dropIndex(indexName);
-        } else {
-          collection._collection._dropIndex(indexName);
-        }
+        collection.dropIndexAsync(indexName);
       } catch (err) {
         // no index with that name, which is what we want
       }
