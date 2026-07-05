@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.1.0
+
+New feature to disable indexing through setting a variable in Meteor settings
+
 ## 4.0.0
 
 Package now depends on `aldeed:simple-schema` instead of NPM package.
