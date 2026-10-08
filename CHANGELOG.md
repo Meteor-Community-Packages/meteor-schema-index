@@ -4,6 +4,12 @@
 
 Added compatibility option with `aldeed:simple-schema` v3
 
+Added compatibility option with `aldeed:collection2` v5
+
+Load `aldeed:collection2` through its static entry instead of `Collection2.load()`. On Meteor 3 the lazy import resolves after app code has already called `attachSchema`
+
+Fields declared in sub-schemas are indexed with `aldeed:simple-schema` v3 as well (the `mergedSchema()` path was only taken for v2)
+
 ## 4.0.0
 
 Package now depends on `aldeed:simple-schema` instead of NPM package.

@@ -289,3 +289,29 @@ describe('unique', () => {
     }).not.toThrow();
   });
 });
+
+const nested = new Mongo.Collection('nestedIndexTest');
+nested.attachSchema(new SimpleSchema({
+  address: {
+    type: new SimpleSchema({
+      city: {
+        type: String,
+        index: 1,
+      },
+    }),
+  },
+}));
+
+if (Meteor.isServer) {
+  describe('sub-schema index', () => {
+    it('creates the index for a field declared in a nested schema', async () => {
+      let indexes = [];
+      for (let attempt = 0; attempt < 20; attempt += 1) {
+        indexes = await nested.rawCollection().indexes();
+        if (indexes.some((index) => index.name === 'c2_address.city')) break;
+        await new Promise((resolve) => { setTimeout(resolve, 100); });
+      }
+      expect(indexes.map((index) => index.name)).toContain('c2_address.city');
+    });
+  });
+}
