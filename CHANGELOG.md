@@ -1,14 +1,18 @@
 # Change Log
 
+## 5.0.0
+
+Added compatibility with `aldeed:collection2` v5 alongside v4.
+
+Load `aldeed:collection2` through its static entry instead of `Collection2.load()`. On Meteor 3 the lazy import resolves after app code has already called `attachSchema`.
+
+Fields declared in sub-schemas are indexed with `aldeed:simple-schema` v3 as well (the `mergedSchema()` path was only taken for v2).
+
+Added client and server compatibility tests for schema attachment, nested and array indexes, and sparse unique indexes.
+
 ## 4.0.1
 
 Added compatibility option with `aldeed:simple-schema` v3
-
-Added compatibility option with `aldeed:collection2` v5
-
-Load `aldeed:collection2` through its static entry instead of `Collection2.load()`. On Meteor 3 the lazy import resolves after app code has already called `attachSchema`
-
-Fields declared in sub-schemas are indexed with `aldeed:simple-schema` v3 as well (the `mergedSchema()` path was only taken for v2)
 
 ## 4.0.0
 
