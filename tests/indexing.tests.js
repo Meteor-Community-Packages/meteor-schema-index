@@ -1,5 +1,7 @@
 /* eslint-disable no-shadow */
 
+import './compatibility.tests';
+
 import expect from 'expect';
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
