@@ -1,9 +1,7 @@
 // collection2 checks to make sure that simpl-schema package is added
 
-import 'meteor/aldeed:collection2/dynamic';
+import 'meteor/aldeed:collection2/static';
 import SimpleSchema from "meteor/aldeed:simple-schema";
-
-Collection2.load();
 
 // Extend the schema options allowed by SimpleSchema
 SimpleSchema.extendOptions([

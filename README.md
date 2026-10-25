@@ -11,6 +11,16 @@ In your Meteor app directory, enter:
 $ meteor add aldeed:schema-index
 ```
 
+## Compatibility
+
+Supports `aldeed:collection2` 4.x from 4.0.4 and 5.x, with `aldeed:simple-schema` 1.13.1, 2.x, or 3.x where supported by Collection2. Use SimpleSchema 3 with Collection2 5. Collection2 5 requires Meteor 3.1.2+ and `insertAsync`, `updateAsync`, and `upsertAsync`.
+
+The test app uses Meteor 3.5.3. CI tests Collection2 4.0.4 / SimpleSchema 1.13.1, Collection2 4.2.2 / SimpleSchema 2.0.0, and Collection2 5.0.0 / SimpleSchema 3.0.0 on the server and in a headless browser.
+
+### Upgrading to 5.0.0
+
+Indexes inside nested SimpleSchema 3 instances are now created correctly. This includes unique indexes that older versions silently skipped. Check for duplicate values before upgrading; MongoDB will reject building a unique index over conflicting data.
+
 ## Usage
 
 Use the `index` option to ensure a MongoDB index for a specific field:

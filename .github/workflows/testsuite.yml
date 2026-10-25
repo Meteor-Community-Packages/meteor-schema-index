@@ -1,34 +1,39 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Test suite
 
 on:
   push:
-    branches:
-      - master
-      - develop
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   tests:
-    name: tests
     runs-on: ubuntu-latest
-    # needs: [lintcode,lintstyle,lintdocs] # we could add prior jobs for linting, if desired
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - collection2: '4.0.4'
+            schema: '1.13.1'
+          - collection2: '4.2.2'
+            schema: '2.0.0'
+          - collection2: '5.0.0'
+            schema: '3.0.0'
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: Setup meteor
-        uses: meteorengineer/setup-meteor@v1
+      - uses: actions/checkout@v4
+      - name: Setup Meteor
+        uses: meteorengineer/setup-meteor@v2
         with:
-          meteor-release: '2.14'
-
-      - name: cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - run: cd tests && meteor npm install && meteor npm run test
+          meteor-release: '3.5.3'
+      - name: Install test dependencies
+        working-directory: tests
+        run: meteor npm ci
+      - name: Select compatibility versions
+        working-directory: tests
+        env:
+          METEOR_PACKAGE_DIRS: ../package
+        run: meteor add 'aldeed:collection2@=${{ matrix.collection2 }}' 'aldeed:simple-schema@=${{ matrix.schema }}' --allow-incompatible-update
+      - name: Test server and client
+        working-directory: tests
+        run: meteor npm test

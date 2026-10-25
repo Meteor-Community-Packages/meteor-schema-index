@@ -1,4 +1,3 @@
-import 'meteor/aldeed:collection2/dynamic';
 import { Meteor } from 'meteor/meteor';
 
 import './common';
@@ -25,7 +24,7 @@ Collection2.on("schema.attached", (collection, ss) => {
     });
   }
 
-  const propName = ss.version === 2 ? "mergedSchema" : "schema";
+  const propName = ss.version >= 2 ? "mergedSchema" : "schema";
 
   // Loop over fields definitions and ensure collection indexes (server side only)
   const schema = ss[propName]();
