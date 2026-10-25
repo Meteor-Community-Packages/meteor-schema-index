@@ -2,6 +2,7 @@
 
 ## 5.0.0
 
+- Drop Meteor 2 support and require Meteor 3.1.2+.
 - Allow `aldeed:collection2@5.0.0` alongside the existing 4.x range.
 - Load Collection2 statically so schema attachment works immediately on both client and server.
 - Read merged schema definitions for SimpleSchema 3 so indexes inside nested schemas are created.

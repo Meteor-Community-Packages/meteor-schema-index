@@ -7,7 +7,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom(["2.8.1", '3.0.1', '3.1']);
+  api.versionsFrom('3.1.2');
   api.use("ecmascript");
   api.use([
     'aldeed:collection2@4.0.4 || 5.0.0',
