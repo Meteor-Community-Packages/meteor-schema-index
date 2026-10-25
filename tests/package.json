@@ -15,7 +15,7 @@
     "testModule": "./indexing.tests.js"
   },
   "devDependencies": {
-    "expect": "^29.7.0",
+    "chai": "^4.5.0",
     "puppeteer": "^19.11.1"
   }
 }

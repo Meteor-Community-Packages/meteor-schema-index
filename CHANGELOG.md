@@ -1,5 +1,14 @@
 # Change Log
 
+## 5.0.0
+
+- Drop Meteor 2 support and require Meteor 3.1.2+.
+- Allow `aldeed:collection2@5.0.0` alongside the existing 4.x range.
+- Load Collection2 statically so schema attachment works immediately on both client and server.
+- Read merged schema definitions for SimpleSchema 3 so indexes inside nested schemas are created.
+- Test index creation, uniqueness, sparse and array indexes, and index removal against real MongoDB.
+- **Migration:** Nested SimpleSchema 3 indexes previously skipped are now created, including unique indexes. Remove conflicting data before upgrading. Collection2 5 requires Meteor 3.1.2+ and async mutation methods; older dependency ranges remain supported.
+
 ## 4.0.1
 
 Added compatibility option with `aldeed:simple-schema` v3
